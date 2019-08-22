@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
+		<version>2.1.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -22,7 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<kotlin.version>1.2.71</kotlin.version>
+		<kotlin.version>1.3.41</kotlin.version>
+		<kotlintest.version>3.3.2</kotlintest.version>
 	</properties>
 
 	<dependencies>
@@ -65,18 +66,25 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<artifactId>spring-boot-test-autoconfigure</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.mockito</groupId>
-					<artifactId>mockito-core</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.4.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -87,6 +95,18 @@
 			<groupId>com.ninja-squad</groupId>
 			<artifactId>springmockk</artifactId>
 			<version>1.1.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.kotlintest</groupId>
+			<artifactId>kotlintest-runner-junit5</artifactId>
+			<version>${kotlintest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.kotlintest</groupId>
+			<artifactId>kotlintest-extensions-spring</artifactId>
+			<version>${kotlintest.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -102,20 +122,39 @@
 			<plugin>
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<groupId>org.jetbrains.kotlin</groupId>
+				<version>${kotlin.version}</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<args>
-						<arg>-Xjsr305=strict</arg>
-					</args>
 					<compilerPlugins>
-						<plugin>spring</plugin>
 						<plugin>jpa</plugin>
-						<plugin>all-open</plugin>
+						<plugin>spring</plugin>
+						<!-- TODO: needed since importing kotlin-maven-allopen below? -->
+						<plugin>all-open</plugin>s
 					</compilerPlugins>
 					<pluginOptions>
 						<option>all-open:annotation=javax.persistence.Entity</option>
 						<option>all-open:annotation=javax.persistence.Embeddable</option>
 						<option>all-open:annotation=javax.persistence.MappedSuperclass</option>
 					</pluginOptions>
+					<args>
+						<arg>-Xjsr305=strict</arg>
+					</args>
+					<jvmTarget>1.8</jvmTarget>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -129,26 +168,18 @@
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
-				<executions>
-					<execution>
-						<id>kapt</id>
-						<goals>
-							<goal>kapt</goal>
-						</goals>
-						<configuration>
-							<sourceDirs>
-								<sourceDir>src/main/kotlin</sourceDir>
-							</sourceDirs>
-							<annotationProcessorPaths>
-								<annotationProcessorPath>
-									<groupId>org.springframework.boot</groupId>
-									<artifactId>spring-boot-configuration-processor</artifactId>
-									<version>${project.parent.version}</version>
-								</annotationProcessorPath>
-							</annotationProcessorPaths>
-						</configuration>
-					</execution>
-				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.3.2</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
