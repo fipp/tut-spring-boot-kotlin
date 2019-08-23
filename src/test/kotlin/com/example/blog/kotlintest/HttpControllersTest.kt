@@ -15,13 +15,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest
-class HttpControllersTest(@Autowired val mockMvc: MockMvc) : StringSpec() {
-
-    @MockkBean
-    private lateinit var userRepository: UserRepository
-
-    @MockkBean
-    private lateinit var articleRepository: ArticleRepository
+class HttpControllersTest(@Autowired val mockMvc: MockMvc,
+                          @MockkBean val userRepository: UserRepository,
+                          @MockkBean val articleRepository: ArticleRepository) : StringSpec() {
 
     init {
 
