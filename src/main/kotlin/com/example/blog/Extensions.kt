@@ -1,11 +1,11 @@
 package com.example.blog
 
-import java.time.LocalDateTime
+import java.sql.Timestamp
 import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField
 import java.util.*
 
-fun LocalDateTime.format() = this.format(englishDateFormatter)
+fun Timestamp.format(): String = this.toLocalDateTime().format(englishDateFormatter)
 
 private val daysLookup = (1..31).associate { it.toLong() to getOrdinal(it) }
 

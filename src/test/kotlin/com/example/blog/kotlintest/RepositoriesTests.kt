@@ -1,17 +1,22 @@
 package com.example.blog.kotlintest
 
-import com.example.blog.Article
 import com.example.blog.ArticleRepository
-import com.example.blog.User
+import com.example.blog.TestcontainersConfig
 import com.example.blog.UserRepository
+import com.example.blog.domain.Article
+import com.example.blog.domain.User
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
+import org.springframework.context.annotation.Import
 import org.springframework.data.repository.findByIdOrNull
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(TestcontainersConfig::class)
 class RepositoriesTests @Autowired constructor(
         val entityManager: TestEntityManager,
         val userRepository: UserRepository,

@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - logicalFilePath: src/main/resources/liquibase-changelog.yml
+  - changeSet:
+      id: 1566910219534-1
+      author: tean (generated)
+      changes:
+        - createSequence:
+            sequenceName: hibernate_sequence
+  - changeSet:
+      id: 1566910219534-2
+      author: tean (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: articlePK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: added_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: content
+                  type: VARCHAR(255)
+              - column:
+                  name: headline
+                  type: VARCHAR(255)
+              - column:
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: author_id
+                  type: BIGINT
+            tableName: article
+  - changeSet:
+      id: 1566910219534-3
+      author: tean (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: blog_userPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: firstname
+                  type: VARCHAR(255)
+              - column:
+                  name: lastname
+                  type: VARCHAR(255)
+              - column:
+                  name: login
+                  type: VARCHAR(255)
+            tableName: blog_user
+  - changeSet:
+      id: 1566910219534-4
+      author: tean (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: author_id
+            baseTableName: article
+            constraintName: FKejbtybk4sof7snx04igjvkdw3
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: blog_user
+

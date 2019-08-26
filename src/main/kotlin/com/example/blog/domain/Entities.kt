@@ -1,6 +1,7 @@
-package com.example.blog
+package com.example.blog.domain
 
-import java.time.LocalDateTime
+import com.example.blog.toSlug
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -10,10 +11,11 @@ class Article(
 		var content: String,
 		@ManyToOne var author: User,
 		var slug: String = title.toSlug(),
-		var addedAt: LocalDateTime = LocalDateTime.now(),
+		var addedAt: Timestamp = Timestamp(System.currentTimeMillis()),
 		@Id @GeneratedValue var id: Long? = null)
 
 @Entity
+@Table(name = "blog_user")
 class User(
 		var login: String,
 		var firstname: String,

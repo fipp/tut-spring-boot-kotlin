@@ -1,0 +1,35 @@
+blog:
+  title: Blog
+  banner:
+    title: Warning
+    content: The blog will be down tomorrow.
+
+spring:
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL94Dialect
+      ddl-auto: none
+      show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase-changelog.yml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ic_orders
+    username: ic_orders
+    password: ic_orders
+    driver: org.postgresql.Driver
+
+server:
+  error:
+    include-exception: true
+    include-stacktrace: always
+  port: 8090
+  servlet:
+    context-path: /

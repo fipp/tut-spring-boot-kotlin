@@ -1,9 +1,9 @@
 package com.example.blog.kotlintest
 
-import com.example.blog.Article
 import com.example.blog.ArticleRepository
-import com.example.blog.User
 import com.example.blog.UserRepository
+import com.example.blog.domain.Article
+import com.example.blog.domain.User
 import com.ninjasquad.springmockk.MockkBean
 import io.kotlintest.specs.StringSpec
 import io.mockk.every

@@ -1,5 +1,7 @@
 package com.example.blog
 
+import com.example.blog.domain.Article
+import com.example.blog.domain.User
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set

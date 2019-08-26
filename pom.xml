@@ -24,6 +24,8 @@
 		<java.version>1.8</java.version>
 		<kotlin.version>1.3.41</kotlin.version>
 		<kotlintest.version>3.3.2</kotlintest.version>
+		<testcontainers.version>1.12.0</testcontainers.version>
+		<liquibase.version>3.5.5</liquibase.version>
 	</properties>
 
 	<dependencies>
@@ -51,19 +53,17 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- Fixed version as a workaround for https://github.com/h2database/h2database/issues/1841 -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.197</version>
-			<scope>runtime</scope>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-test-autoconfigure</artifactId>
@@ -108,6 +108,29 @@
 			<artifactId>kotlintest-extensions-spring</artifactId>
 			<version>${kotlintest.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.8.0</version>
 		</dependency>
 	</dependencies>
 
@@ -178,6 +201,47 @@
 						<groupId>org.junit.platform</groupId>
 						<artifactId>junit-platform-surefire-provider</artifactId>
 						<version>1.3.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.javassist</groupId>
+						<artifactId>javassist</artifactId>
+						<version>3.25.0-GA</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.xml.bind</groupId>
+						<artifactId>jaxb-api</artifactId>
+						<version>2.3.0</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.validation</groupId>
+						<artifactId>validation-api</artifactId>
+						<version>2.0.1.Final</version>
+					</dependency>
+					<dependency>
+						<groupId>org.liquibase.ext</groupId>
+						<artifactId>liquibase-hibernate5</artifactId>
+						<version>3.6</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot</artifactId>
+						<version>${project.parent.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.data</groupId>
+						<artifactId>spring-data-jpa</artifactId>
+						<version>${project.parent.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
